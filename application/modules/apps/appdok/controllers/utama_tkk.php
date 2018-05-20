@@ -1,0 +1,21 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+
+class Utama_tkk extends MX_Controller {
+
+	function __construct(){
+		parent::__construct();
+		$this->auth->restrict();
+
+		$this->load->model('appdok/m_edok');
+		$this->load->model('appbkpp/m_pegawai');
+		date_default_timezone_set('Asia/Jakarta');
+	}
+
+///////////////////////////////////////////////////////////////////////////////////
+	function edit(){
+		$idd = $_POST['idd'];
+		echo Modules::run("appdok/pasfoto_tkk/".$idd,$_POST['id_pegawai']);
+	}
+
+}
+?>

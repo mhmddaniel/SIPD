@@ -1,0 +1,7 @@
+
+[Tue Feb 06 07:51:04.331898 2018] [:error] [pid 9346:tid 140024014079744] [client 202.179.185.194:50145] SoftException in Application.cpp:404: Mismatch between target UID (700) and UID (701) of file "/home/demo/public_html/index.php"
+[Tue Feb 06 07:51:04.351840 2018] [core:error] [pid 9346:tid 140024014079744] [client 202.179.185.194:50145] End of script output before headers: index.php
+[Tue Feb 06 07:53:03.647719 2018] [:error] [pid 7266:tid 140024129468160] [client 202.179.185.194:50230] SoftException in Application.cpp:404: Mismatch between target UID (700) and UID (701) of file "/home/demo/public_html/index.php"
+[Tue Feb 06 07:53:03.647809 2018] [core:error] [pid 7266:tid 140024129468160] [client 202.179.185.194:50230] End of script output before headers: index.php
+[Tue Feb 06 07:53:04.529339 2018] [:error] [pid 9346:tid 140024035059456] [client 202.179.185.194:50231] SoftException in Application.cpp:404: Mismatch between target UID (700) and UID (701) of file "/home/demo/public_html/index.php"
+[Tue Feb 06 07:53:04.529420 2018] [core:error] [pid 9346:tid 140024035059456] [client 202.179.185.194:50231] End of script output before headers: index.php
