@@ -104,8 +104,14 @@ class M_profil_berkala extends CI_Model{
 		return $hslquery;
 	}
 
-	function ini_berkala_lanjutan($idd,$tahun,$bulan){
-		$tahun=$tahun+2;
+	function ini_berkala_lanjutan($var){
+
+		$idd = $var['id_pegawai'];
+		$no_sk = $var['no_sk'];
+		$mk_gol_tahun = $var['mk_gol_tahun'];
+		$mk_gol_bulan = $var['mk_gol_bulan'];
+		$tmt_gaji = $var['tmt_gaji'];
+
 		$sqlstr="SELECT a.*,b.agama,b.gender, 
 		c.tmt_cpns, d.tanggal_sk,d.tmt_gaji,d.no_sk,d.oleh_pejabat,d.kode_golongan as kode_golongan_lama,  d.mk_gol_tahun, d.mk_gol_bulan,d.gaji_baru, e.masa_jabatan, e.gaji_pokok, f.kode_unor as unor
 
@@ -115,7 +121,7 @@ class M_profil_berkala extends CI_Model{
 		LEFT JOIN (r_peg_kgb d) ON (a.id_pegawai = d.id_pegawai)
 		LEFT JOIN (r_berkala e) ON (a.kode_golongan=e.kode_golongan)
 		LEFT JOIN (r_peg_jab f) ON (a.id_pegawai=f.id_pegawai)
-		WHERE a.id_pegawai='$idd' and e.masa_jabatan = '$tahun' ORDER BY d.gaji_baru DESC";
+		WHERE a.id_pegawai='$idd' and e.masa_jabatan = '$mk_gol_tahun' ORDER BY d.gaji_baru DESC";
 		$hslquery=$this->db->query($sqlstr)->row();
 
 		$iniDik = $this->ini_pegawai_pendidikan($idd);
@@ -126,25 +132,9 @@ class M_profil_berkala extends CI_Model{
 		@$hslquery->no_agenda = $no_agenda;
 
 
-		$datetime1 = date_create($hslquery->tmt_gaji);
-		$datetime2 = date_create(date('d-m-Y', strtotime("+ 2 years ", strtotime($hslquery->tmt_gaji))));
 
-		$interval = date_diff($datetime2, $datetime1);
-
-		$newthn = $interval->format('%y');
-		$newbln = $interval->format('%m');
-
-
-
-		$masa_jabatan_tahun = $hslquery->mk_gol_tahun + $newthn;
+		$masa_jabatan_tahun = $mk_gol_tahun;
 		@$hslquery->masa_jabatan_tahun = $masa_jabatan_tahun;
-
-		if($newbln!=0){
-			$masa_jabatan_tahun = $masa_jabatan_tahun + 1;
-			$hslquery->tmt_gaji = date('d-m-Y', strtotime("+ ".$newbln." months ", strtotime($hslquery->tmt_gaji)));
-			$newbln = 0;
-		}
-
 		$masa_jabatan_bulan = $newbln;
 		@$hslquery->masa_jabatan_bulan = $masa_jabatan_bulan;
 
@@ -196,8 +186,6 @@ class M_profil_berkala extends CI_Model{
 
 		$id_agenda = $this->get_last_id_agenda();
 
-		$no_sk = "822.".floor($hslquery->kode_golongan/10)."/".$id_agenda."/BKPSDM.III/".date('Y');
-
 		$isi['kode_golongan'] = $hslquery->kode_golongan;
 		$isi['mk_gol_tahun'] = $masa_jabatan_tahun;
 		$isi['mk_gol_bulan'] = $masa_jabatan_bulan;
@@ -206,7 +194,7 @@ class M_profil_berkala extends CI_Model{
 		$isi['tanggal_sk'] = date('d-m-Y');
 		$isi['gaji_lama'] = $hslquery->gaji_baru;
 		$isi['gaji_baru'] = str_replace(",","",trim($hslquery->gaji_pokok));
-		$isi['tmt_gaji'] = date('d-m-Y', strtotime("+ 2 years ", strtotime($hslquery->tmt_gaji)));
+		$isi['tmt_gaji'] = $tmt_gaji;
 		$isi['id_pegawai'] = $idd;
 
 		$this->kgb_tambah_aksi($isi);

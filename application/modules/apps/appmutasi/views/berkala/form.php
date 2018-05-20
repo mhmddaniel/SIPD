@@ -13,7 +13,6 @@
 									<form role="form" id="form_kgb" action="<?=site_url();?>appbkpp/profile/formkgb_<?=(isset($isi->id_kgb))?((isset($hapus))?"hapus":"edit"):"tambah";?>_aksi">
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<?= var_dump($isi) ?>
 		<i class="fa fa-edit fa-fw"></i> <b>Form Dok. Kenaikan Gaji Berkala</b>
 		<div class="btn btn-default btn-xs pull-right" onclick="kembali();return false;"><i class="fa fa-close fa-fw"></i></div>
 	</div>
@@ -82,8 +81,7 @@
 			<div class="col-lg-6" style="padding-top:15px;">
 					<?=form_hidden('id_pegawai',$id_pegawai);?>
 					<input name="id_kgb" id="id_kgb" type=hidden class="form-control" value="<?=(isset($isi->id_kgb))?$isi->id_kgb:"";?>">
-			        <button type="submit" class="btn btn-<?=(isset($hapus))?"danger":"primary";?>" onclick="validasi_kgb();return false;"><i class="fa fa-save fa-fw"></i> <?=(isset($hapus))?"Hapus":"Simpan";?></button>
-					<button class="btn btn-default" type="button" onclick="kembali();return false;"><i class="fa fa-close fa-fw"></i> Batal...</button>
+					<a href="<?=site_url() .'appdok/cetak_berkala/sk?no_sk='.$isi->no_sk.'&id_pegawai='.$isi->id_pegawai.'&mk_gol_tahun='.$isi->mk_gol_tahun.'&mk_gol_bulan='.$isi->mk_gol_bulan.'&tmt_gaji='.$isi->tmt_gaji;?>" role="menuitem" tabindex="-1" target="_blank" style="cursor:pointer;"><span class="btn btn-primary btn-xs"><i class="fa fa-money fa-fw"></i> Cetak SK Berkala</span></a>
 			</div><!--//col-lg-6-->
 		</div><!--//row-->
 	</div><!-- /.panel-body -->
@@ -114,6 +112,12 @@ function validasi_kgb(){
 			return false;
 		} else { simpan();	}
 }
+
+function simpan(){
+	alert("simpan");
+}
+
+
 $(document).ready(function(){
 	$('.biaya').maskMoney({thousands:' ', allowZero:true, precision : 0});
 })

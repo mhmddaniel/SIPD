@@ -158,28 +158,36 @@ class Berkala extends MX_Controller {
 		$this->load->view('berkala/'.$rd,$data);
 	}
 
-
-
 	function edit(){//,$oleh_pejabat=false,$gaji_lama=false,$gaji_baru=false,$tmt_gaji=false){
 
-		$isi['kode_golongan'] =$_GET['kode_golongan'];
-		$isi['no_sk'] =$_GET['no_sk'];
-		$isi['tanggal_sk'] =$_GET['tanggal_sk'];
-		$isi['mk_gol_tahun'] =$_GET['mk_gol_tahun'];
-		$isi['mk_gol_bulan'] =$_GET['mk_gol_bulan'];
-		$isi['oleh_pejabat'] =$_GET['oleh_pejabat'];
-		$isi['gaji_lama'] =$_GET['gaji_lama'];
+
+		$id_pegawai = $_GET['id_pegawai'];
+
+		$mk_gol_tahun =$_GET['mk_gol_tahun'];
+		$mk_gol_bulan =$_GET['mk_gol_bulan'];
+
+		$isi['id_pegawai'] =$_GET['id_pegawai'];
+		$result = $this->m_berkala->hitung_gaji_baru($id_pegawai,$mk_gol_tahun,$mk_gol_bulan);
 		
-		// $isi['oleh_pejabat'] =$oleh_pejabat;
-		// $isi['gaji_lama'] =$gaji_lama;
-		// $isi['gaji_baru'] =$gaji_baru;
-		// $isi['tmt_gaji'] =$tmt_gaji;
+
+
+		$isi['kode_golongan'] =$result['kode_golongan'];
+		$isi['no_sk'] =$result['no_sk'];
+		$isi['tanggal_sk'] =$result['tanggal_sk'];
+		$isi['mk_gol_tahun'] =$result['mk_gol_tahun'];
+		$isi['mk_gol_bulan'] =$result['mk_gol_bulan'];
+		$isi['oleh_pejabat'] =$result['oleh_pejabat'];
+		$isi['gaji_lama'] =$result['gaji_lama'];
+		$isi['gaji_baru'] =$result['gaji_baru'];
+		$isi['tmt_gaji'] =$result['tmt_gaji'];
 
 		$data['isi'] = (object) $isi;
 		$data['id_pegawai'] = $_GET['id_pegawai'];
 
 		$this->load->view('berkala/form',$data);
 	}
+
+
 
 
 function lihat(){

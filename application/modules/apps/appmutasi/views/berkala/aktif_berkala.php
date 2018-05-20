@@ -369,7 +369,7 @@ var mkcpns = $('#a_mkcpns').val();
 					table = table+ "</div>";
 					table = table+ "</td>";
 					table = table+ "<td style='padding:3px;'><b>"+item.nama_pegawai+"</b> ("+item.gender+")<br/>"+item.tempat_lahir+", "+item.tanggal_lahir+"<br/>"+item.nip_baru+" / "+item.tmt_pns+"</td>";
-					table = table+ "<td style='padding:3px;'>" +item.nama_pangkat+" ("+item.nama_golongan+")<br/>"+"Gaji pokok setelah berkala : <b>"+item.gaji_pokok+"</b> / bulan <br /> Masa kerja terakhir <b>"+item.mk_berkala_tahun+" tahun "+item.mk_berkala_bulan+" bulan</b>, TMT CPNS <b>"+item.tmt_cpns+" </b> <br/>"+"TMT gaji terakhir <b>"+item.tmt_gaji+" </b></td>";
+					table = table+ "<td style='padding:3px;'>" +item.nama_pangkat+" ("+item.nama_golongan+")<br/>"+"Gaji pokok terakhir: <b>"+item.gaji_baru+"</b> / bulan <br /> Masa kerja terakhir <b>"+item.mk_berkala_tahun+" tahun "+item.mk_berkala_bulan+" bulan</b>, TMT CPNS <b>"+item.tmt_cpns+" </b> <br/>"+"TMT gaji terakhir <b>"+item.tmt_gaji+" </b></td>";
 					if(item.tugas_tambahan!="" && item.tugas_tambahan!="xx"){	var tt=" (<b>"+item.tugas_tambahan+"</b>)";	}else{	var tt="";	}
 					table = table+ "<td style='padding:3px;'>" +item.nomenklatur_jabatan+tt+"<br/><u>pada</u><br/>"+item.nomenklatur_pada+"<br/><u>sejak</u>: "+item.tmt_jabatan+"</td>";
 					table = table+ "</tr>";
@@ -594,7 +594,7 @@ var mkcpns = $('#a_mkcpns').val();
 					table = table+ "</div>";
 					table = table+ "</td>";
 					table = table+ "<td style='padding:3px;'><b>"+item.nama_pegawai+"</b> ("+item.gender+")<br/>"+item.tempat_lahir+", "+item.tanggal_lahir+"<br/>"+item.nip_baru+" / "+item.tmt_pns+"</td>";
-					table = table+ "<td style='padding:3px;'>" +item.nama_pangkat+" ("+item.nama_golongan+")<br/>"+"Gaji pokok setelah berkala : <b>"+item.gaji_pokok+"</b> / bulan <br /> Masa kerja terakhir <b>"+item.mk_berkala_tahun+" tahun "+item.mk_berkala_bulan+" bulan</b>, TMT CPNS <b>"+item.tmt_cpns+" </b> <br/>"+"TMT gaji terakhir <b>"+item.tmt_gaji+" </b></td>";
+					table = table+ "<td style='padding:3px;'>" +item.nama_pangkat+" ("+item.nama_golongan+")<br/>"+"Gaji pokok terakhir : <b>"+item.gaji_baru+"</b> / bulan <br /> Masa kerja terakhir <b>"+item.mk_berkala_tahun+" tahun "+item.mk_berkala_bulan+" bulan</b>, TMT CPNS <b>"+item.tmt_cpns+" </b> <br/>"+"TMT gaji terakhir <b>"+item.tmt_gaji+" </b></td>";
 					if(item.tugas_tambahan!="" && item.tugas_tambahan!="xx"){	var tt=" (<b>"+item.tugas_tambahan+"</b>)";	}else{	var tt="";	}
 					table = table+ "<td style='padding:3px;'>" +item.nomenklatur_jabatan+tt+"<br/><u>pada</u><br/>"+item.nomenklatur_pada+"<br/><u>sejak</u>: "+item.tmt_jabatan+"</td>";
 					table = table+ "</tr>";

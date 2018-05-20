@@ -32,7 +32,20 @@ class Cetak_berkala extends MX_Controller {
 		$this->mypdf->Output($id_pegawai.'.pdf', 'I');
 	}
 
-  function sk($id_pegawai=false,$mk_cpns_tahun=false,$mk_cpns_bulan=false){
+  function sk(){
+
+    $isi['id_pegawai'] =$_GET['id_pegawai'];
+    // $isi['kode_golongan'] =$result['kode_golongan'];
+    $isi['no_sk'] =$_GET['no_sk'];
+    // $isi['tanggal_sk'] =$result['tanggal_sk'];
+    $isi['mk_gol_tahun'] =$_GET['mk_gol_tahun'];
+    $isi['mk_gol_bulan'] =$_GET['mk_gol_bulan'];
+    // $isi['oleh_pejabat'] =$result['oleh_pejabat'];
+    // $isi['gaji_lama'] =$result['gaji_lama'];
+    // $isi['gaji_baru'] =$result['gaji_baru'];
+    $isi['tmt_gaji'] =$_GET['tmt_gaji'];
+
+
     $this->load->library('mypdf');
     
     $this->mypdf->SetCreator(PDF_CREATOR);
@@ -51,8 +64,8 @@ class Cetak_berkala extends MX_Controller {
     $this->mypdf->SetAutoPageBreak(TRUE, 10);
     $this->mypdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
     $this->mypdf->SetFont('HELVETICA', '', 12);
-    $this->createsk($id_pegawai,$mk_cpns_tahun,$mk_cpns_bulan);
-    $this->mypdf->Output("sk_berkala_".$id_pegawai.'.pdf', 'I');
+    $this->createsk($isi);
+    $this->mypdf->Output("sk_berkala_".$isi['id_pegawai'].'.pdf', 'I');
   }
 
 	function createcv($id_pegawai=false){
@@ -68,11 +81,11 @@ class Cetak_berkala extends MX_Controller {
 		$this->mypdf->writeHTML($html, true, 0, true, 0);
 	}
 
-  function createsk($id_pegawai=false,$mk_cpns_tahun=false,$mk_cpns_bulan=false){
+  function createsk($isi){
     $this->mypdf->AddPage();
     $this->mypdf->SetFillColor(255, 255, 127);
 
-    $html = $this->gethtmlsk($id_pegawai,$mk_cpns_tahun,$mk_cpns_bulan);
+    $html = $this->gethtmlsk($isi);
     $this->mypdf->writeHTML($html, true, 0, true, 0);
   }
 
@@ -82,19 +95,22 @@ class Cetak_berkala extends MX_Controller {
 		return $this->load->view('cv/template',array('data'=>$html),true );
 	}
 
-function gethtmlsk($id_pegawai=false,$mk_cpns_tahun=false,$mk_cpns_bulan=false){
-    $html = $this->getdatask($id_pegawai,$mk_cpns_tahun,$mk_cpns_bulan);
+function gethtmlsk($isi){
+    $html = $this->getdatask($isi);
     return $this->load->view('berkala/sk',array('data'=>$html),true );
   }
 
 
-function getdatask($id_pegawai=false,$mk_cpns_tahun=false,$mk_cpns_bulan=false){
+function getdatask($isi){
+
+    $id_pegawai = $isi['id_pegawai'];
+
     $data['head'] = Modules::run("appbkpp/profile_berkala/ini_berkala",$id_pegawai);//  Modules::run("datamodel/pegawai/get_pegawai",$id_pegawai);
     $html['head'] = $this->load->view('berkala/head_berkala',array('data'=>$data['head']),true );
     $data['pribadi'] = Modules::run("appbkpp/profile_berkala/ini_berkala",$id_pegawai);//   Modules::run("datamodel/pegawai/get_peg_biodata",$id_pegawai);
     $html['pribadi'] = $this->load->view('berkala/pribadi_berkala',array('data'=>$data['pribadi']),true );
 
-    $data['alamat'] = Modules::run("appbkpp/profile_berkala/ini_berkala_lanjutan",$id_pegawai,$mk_cpns_tahun,$mk_cpns_bulan);//   Modules::run("datamodel/pegawai/get_peg_alamat",$id_pegawai);
+    $data['alamat'] = Modules::run("appbkpp/profile_berkala/ini_berkala_lanjutan",$isi);//   Modules::run("datamodel/pegawai/get_peg_alamat",$id_pegawai);
     $html['alamat'] = $this->load->view('berkala/pribadi_berkala_lanjutan',array('data'=>$data['alamat']),true );    
     return $html;
   }

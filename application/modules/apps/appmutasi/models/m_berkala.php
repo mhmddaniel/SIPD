@@ -204,6 +204,73 @@ class M_berkala extends CI_Model{
 		$hslquery=$this->db->query($sqlstr)->result();
 		return $hslquery;
 	}
+
+
+	function get_last_id_agenda()
+	{
+		$this->db->select_max('id_agenda');
+		$query = $this->db->get('r_agenda');
+
+		$id_agenda= $query->row('id_agenda');
+
+		return $id_agenda; 
+	}
+	
+	function hitung_gaji_baru($idd,$tahun,$bulan){
+		$tahun=$tahun+2;
+		$sqlstr="SELECT a.*,b.agama,b.gender, 
+		c.tmt_cpns, d.tanggal_sk,d.tmt_gaji,d.no_sk,d.oleh_pejabat,d.kode_golongan as kode_golongan_lama,  d.mk_gol_tahun, d.mk_gol_bulan,d.gaji_baru, e.masa_jabatan, e.gaji_pokok, f.kode_unor as unor
+
+		FROM r_pegawai_aktual a
+		LEFT JOIN r_pegawai b ON (a.id_pegawai=b.id_pegawai) 
+		LEFT JOIN (r_peg_cpns c) ON (a.id_pegawai = c.id_pegawai)
+		LEFT JOIN (r_peg_kgb d) ON (a.id_pegawai = d.id_pegawai)
+		LEFT JOIN (r_berkala e) ON (a.kode_golongan=e.kode_golongan)
+		LEFT JOIN (r_peg_jab f) ON (a.id_pegawai=f.id_pegawai)
+		WHERE a.id_pegawai='$idd' and e.masa_jabatan = '$tahun' ORDER BY d.gaji_baru DESC";
+		$hslquery=$this->db->query($sqlstr)->row();
+
+
+		$datetime1 = date_create($hslquery->tmt_gaji);
+		$datetime2 = date_create(date('d-m-Y', strtotime("+ 2 years ", strtotime($hslquery->tmt_gaji))));
+
+		$interval = date_diff($datetime2, $datetime1);
+
+		$newthn = $interval->format('%y');
+		$newbln = $interval->format('%m');
+
+
+
+		$masa_jabatan_tahun = $hslquery->mk_gol_tahun + $newthn;
+		@$hslquery->masa_jabatan_tahun = $masa_jabatan_tahun;
+
+		if($newbln!=0){
+			$masa_jabatan_tahun = $masa_jabatan_tahun + 1;
+			$hslquery->tmt_gaji = date('d-m-Y', strtotime("+ ".$newbln." months ", strtotime($hslquery->tmt_gaji)));
+			$newbln = 0;
+		}
+
+		$masa_jabatan_bulan = $newbln;
+		@$hslquery->masa_jabatan_bulan = $masa_jabatan_bulan;
+
+
+		$id_agenda = $this->get_last_id_agenda()+1;
+		
+		$no_sk = "822.".floor($hslquery->kode_golongan/10)."/".$id_agenda."/BKPSDM.III/".date('Y');
+
+		$isi['kode_golongan'] = $hslquery->kode_golongan;
+		$isi['mk_gol_tahun'] = $masa_jabatan_tahun;
+		$isi['mk_gol_bulan'] = $masa_jabatan_bulan;
+		$isi['oleh_pejabat'] = "WALIKOTA PALEMBANG";
+		$isi['no_sk'] = $no_sk;
+		$isi['tanggal_sk'] = date('d-m-Y');
+		$isi['gaji_lama'] = $hslquery->gaji_baru;
+		$isi['gaji_baru'] = str_replace(",","",trim($hslquery->gaji_pokok));
+		$isi['tmt_gaji'] = date('d-m-Y', strtotime("+ 2 years ", strtotime($hslquery->tmt_gaji)));
+		$isi['id_pegawai'] = $idd;
+
+		return $isi;
+	}	
 //////////////////////////////////////////////////////////////////////////////////
 	function hitung_pegawai_duk($cari,$pns,$unor="all"){
 			if($pns=="jfu"){	$iPns = "AND (jab_type='jfu' OR jab_type='js')";	} elseif($pns=="jft"){	$iPns = "AND jab_type='jft'";	} else {	$iPns = "AND jab_type='jft-guru'";	}
