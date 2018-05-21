@@ -339,7 +339,8 @@ var mkcpns = $('#a_mkcpns').val();
 								if(item.tahun_berkala <= (new Date()).getFullYear())
 								{
 
-								table = table+ '<a href="<?=site_url();?>appdok/cetak_berkala/sk/'+item.kode_golongan+'/'+item.mk_berkala_tahun+'/'+item.mk_berkala_bulan+'" role="menuitem" tabindex="-1" target="_blank" style="cursor:pointer;"><span class="btn btn-primary btn-xs"><i class="fa fa-money fa-fw"></i> Cetak SK Berkala</span></a>';
+								table+ 
+									'<a href="<?=site_url();?>module/appmutasi/berkala/edit?id_pegawai='+item.id_pegawai+'&kode_golongan='+item.kode_golongan+'&no_sk='+item.no_sk+'&tanggal_sk='+item.tanggal_sk+'&mk_gol_tahun='+item.mk_berkala_tahun+'&mk_gol_bulan='+item.mk_berkala_bulan+'&oleh+pejabat='+'WALIKOTA PALEMBANG'+'&gaji_lama='+item.gaji_baru+'&gaji_baru='+item.gaji_pokok+'" role="menuitem" tabindex="-1" target="_blank" style="cursor:pointer;"><span class="btn btn-primary btn-xs"><i class="fa fa-money fa-fw"></i> Cetak SK Berkala</span></a>';
 								}
 								else
 								{
